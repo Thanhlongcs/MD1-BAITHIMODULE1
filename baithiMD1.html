@@ -20,20 +20,21 @@
     </tbody>
 </table>
 <p>Name Song</p>
-<input type="text">
+<input type="text" id="nameSong">
 <p>Lyrics</p>
-<textarea name="" id="" cols="30" rows="10"></textarea>
+<textarea name="" id="lyrics" cols="30" rows="10"></textarea>
 <select onchange="selectCategory()"  id="music">
-<!--    <option value="nhacjazz">nhac jazz</option>-->
-<!--    <option value="nhacrock">nhac rock</option>-->
-<!--    <option value="nhacvang">nhac vang</option>-->
-<!--    <option value="nhacrap">nhac rap</option>-->
-<!--    <option value="nhactre">nhac tre</option>-->
-
 </select><br>
-<button>create song</button>
-
+<button onclick="createSong()">create song</button>
 </select>
+<table border="1" style="width: 100%; text-align: center">
+    <th>STT</th>
+    <th>Name Song</th>
+    <th>Lyrics</th>
+    <th>Category</th>
+    <tbody id="drawTableSong">
+    </tbody>
+</table>
 <script>
     class Category {
         id;
@@ -149,10 +150,12 @@
         id;
         name;
         lyrics;
-        constructor(id,name,lyrics) {
+        category;
+        constructor(id,name,lyrics,category) {
             this.id = id;
             this.name = name;
             this.lyrics=lyrics;
+            this.category=category
         }
         getId(){
             return this.id;
@@ -169,8 +172,42 @@
             return this.lyrics;
         }setLyrics(value){
             this.lyrics=value
+        } getCategory() {
+            return this.category;
+        }
+
+        setCategory(category) {
+            this.category = category;
         }
     }
+
+    listSong=[]
+    function createSong() {
+        let nameSong= document.getElementById("nameSong").value
+        let lyrics= document.getElementById("lyrics").value
+        let idSong=0
+        if(listSong.length==0){
+            idSong=1;
+        }else{
+            idSong=listSong[listSong.length-1].id+1;
+        }
+        let newSong= new Song(idSong,nameSong,lyrics,valueSelect);
+        listSong.push(newSong);
+        showListSong()
+    }
+    function showListSong() {
+        let drawTableSong=''
+        for ( let i = 0; i < listSong.length; i++) {
+            drawTableSong+=`<tr">
+           <td>${listSong[i].id=i+1}</td>
+           <td>${listSong[i].name}</td>
+           <td>${listSong[i].lyrics}</td>
+           <td>${listSong[i].category}</td>
+            </tr>`
+        }
+        document.getElementById('drawTableSong').innerHTML=drawTableSong;
+    }showListSong()
+    selectCategory()
 </script>
 </body>
 </html>
